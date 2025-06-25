@@ -8,7 +8,7 @@ DEPENDS += "rust-llvm (=${PV})"
 inherit cross-canadian
 
 DEPENDS += "  \
-            virtual/${HOST_PREFIX}gcc-crosssdk \
+            virtual/${HOST_PREFIX}gcc \
             virtual/nativesdk-libc rust-llvm-native \
             virtual/${TARGET_PREFIX}compilerlibs \
             virtual/nativesdk-${HOST_PREFIX}compilerlibs \
