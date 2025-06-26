@@ -2,6 +2,8 @@ require rust-target.inc
 require rust-source-${PV}.inc
 require rust-snapshot-${PV}.inc
 
+DATA_LAYOUT[x86_64] = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
+
 LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=c2cccf560306876da3913d79062a54b9"
 
 INSANE_SKIP:${PN}:class-native = "already-stripped"
