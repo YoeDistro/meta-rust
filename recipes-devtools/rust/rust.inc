@@ -80,7 +80,7 @@ python do_configure() {
     config = configparser.RawConfigParser()
 
     # [target.ARCH-poky-linux]
-    target_section = "target.{}".format(d.getVar('TARGET_SYS', True))
+    target_section = "target.{}".format(d.getVar('RUST_TARGET_SYS', True))
     config.add_section(target_section)
 
     llvm_config = d.expand("${YOCTO_ALTERNATE_EXE_PATH}")
@@ -91,13 +91,14 @@ python do_configure() {
 
     # If we don't do this rust-native will compile it's own llvm for BUILD.
     # [target.${BUILD_ARCH}-unknown-linux-gnu]
-    target_section = "target.{}".format(d.getVar('SNAPSHOT_BUILD_SYS', True))
-    config.add_section(target_section)
+    build_section = "target.{}".format(d.getVar('SNAPSHOT_BUILD_SYS', True))
+    if build_section != target_section:
+        config.add_section(build_section)
 
-    config.set(target_section, "llvm-config", e(llvm_config))
+        config.set(build_section, "llvm-config", e(llvm_config))
 
-    config.set(target_section, "cxx", e(d.expand("${RUST_BUILD_CXX}")))
-    config.set(target_section, "cc", e(d.expand("${RUST_BUILD_CC}")))
+        config.set(build_section, "cxx", e(d.expand("${RUST_BUILD_CXX}")))
+        config.set(build_section, "cc", e(d.expand("${RUST_BUILD_CC}")))
 
     # [rust]
     config.add_section("rust")
@@ -125,11 +126,11 @@ python do_configure() {
     config.set("build", "vendor", e(True))
 
     if not "targets" in locals():
-        targets = [d.getVar("TARGET_SYS", True)]
+        targets = [d.getVar("RUST_TARGET_SYS", True)]
     config.set("build", "target", e(targets))
 
     if not "hosts" in locals():
-        hosts = [d.getVar("HOST_SYS", True)]
+        hosts = [d.getVar("RUST_HOST_SYS", True)]
     config.set("build", "host", e(hosts))
 
     # We can't use BUILD_SYS since that is something the rust snapshot knows

@@ -41,7 +41,7 @@ do_install () {
 	chrpath -d ${i}
     done
 
-    install -m 0644 "${WORKDIR}/targets/${TARGET_SYS}.json" "${RUSTLIB_DIR}"
+    install -m 0644 "${WORKDIR}/targets/${RUST_TARGET_SYS}.json" "${RUSTLIB_DIR}"
 
     SRC_DIR=${RUSTLIB_DIR}/src/rust
     install -d ${SRC_DIR}/src/llvm-project
@@ -67,7 +67,7 @@ PKG_SYS_LIBDIR = "${SDKPATHNATIVE}/usr/lib"
 PKG_SYS_BINDIR = "${SDKPATHNATIVE}/usr/bin"
 PKG_RUSTLIB_DIR = "${PKG_SYS_LIBDIR}/${TARGET_SYS}/rustlib"
 FILES:${PN} = "${PKG_SYS_LIBDIR}/*.so ${PKG_SYS_BINDIR} ${base_prefix}/environment-setup.d"
-FILES:${RUSTLIB_TARGET_PN} = "${PKG_RUSTLIB_DIR}/${TARGET_SYS} ${PKG_RUSTLIB_DIR}/${TARGET_SYS}.json"
+FILES:${RUSTLIB_TARGET_PN} = "${PKG_RUSTLIB_DIR}/${TARGET_SYS} ${PKG_RUSTLIB_DIR}/${RUST_TARGET_SYS}.json"
 FILES:${RUSTLIB_HOST_PN} = "${PKG_RUSTLIB_DIR}/${BUILD_ARCH}-unknown-linux-gnu"
 FILES:${RUSTLIB_SRC_PN} = "${PKG_RUSTLIB_DIR}/src"
 

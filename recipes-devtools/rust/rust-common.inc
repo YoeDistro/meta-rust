@@ -327,6 +327,7 @@ def rust_gen_target(d, thing, wd, features, cpu, arch, abi=""):
     import json
     sys = sys_for(d, thing)
     prefix = prefix_for(d, thing)
+    rustsys = d.getVar('RUST_{}_SYS'.format(thing))
 
     if abi:
         arch_abi = "{}-{}".format(arch, abi)
@@ -382,7 +383,7 @@ def rust_gen_target(d, thing, wd, features, cpu, arch, abi=""):
     tspec['panic-strategy'] = d.getVar("RUST_PANIC_STRATEGY")
 
     # write out the target spec json file
-    with open(wd + sys + '.json', 'w') as f:
+    with open(wd + rustsys + '.json', 'w') as f:
         json.dump(tspec, f, indent=4)
 
 python do_rust_gen_targets () {
