@@ -61,8 +61,10 @@ def rust_base_triple(d, thing):
 
     arch = d.getVar('{}_ARCH'.format(thing))
 
-    # All the Yocto targets are Linux and are 'unknown'
-    vendor = "-unknown"
+    # Substituting "unknown" when vendor is empty will match rust's standard
+    # targets when building native recipes (including rust-native itself)
+    vendor = d.getVar('{}_VENDOR'.format(thing)) or "-unknown"
+
     os = d.getVar('{}_OS'.format(thing))
     libc = determine_libc(d, thing)
 
