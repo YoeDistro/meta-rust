@@ -44,7 +44,11 @@ def rust_base_triple(d, thing):
     Note that os is assumed to be some linux form
     '''
 
-    arch = d.getVar('{}_ARCH'.format(thing))
+    # The llvm-target for armv7 is armv7-unknown-linux-gnueabihf
+    if thing == "TARGET" and target_is_armv7(d):
+        arch = "armv7"
+    else:
+        arch = d.getVar('{}_ARCH'.format(thing))
 
     # Substituting "unknown" when vendor is empty will match rust's standard
     # targets when building native recipes (including rust-native itself)
