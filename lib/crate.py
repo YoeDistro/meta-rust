@@ -25,6 +25,7 @@ import hashlib
 import json
 import os
 import subprocess
+from functools import cmp_to_key
 import bb
 from   bb.fetch2 import logger, subprocess_setup, UnpackError
 from   bb.fetch2.wget import Wget
@@ -169,7 +170,6 @@ class Crate(Wget):
         """
         Return the latest version available when versionsurl is the [name]/versions URL.
         """
-        from functools import cmp_to_key
         json_data = json.loads(self._fetch_index(ud.versionsurl, ud, d))
         versions = [(0, i["num"], "") for i in json_data["versions"]]
         versions = sorted(versions, key=cmp_to_key(bb.utils.vercmp))
@@ -182,8 +182,6 @@ class Crate(Wget):
         file.
         https://doc.rust-lang.org/cargo/reference/registry-index.html#index-files
         """
-        from functools import cmp_to_key
-
         versions = []
         response = self._fetch_index(ud.versionsurl, ud, d)
         for line in response.splitlines():
